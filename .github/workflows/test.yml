@@ -29,4 +29,4 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
       - run: pip install pytest
-      - run: pytest
+      - run: pytest -v --doctest-glob="README.md"

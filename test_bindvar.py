@@ -1,7 +1,7 @@
 # type: ignore
 
 import pytest
-import const
+from bindvar import bind
 
 
 class Value:
@@ -12,17 +12,17 @@ class Value:
 x, y, z = Value(1), Value(2), Value(3)
 
 
-def test_store():
+def test_bind():
     global x, y, z
 
-    @const.store(x)
+    @bind(x)
     def f():
-        x = "__const__"
+        x = "__bound__"
         return x.value
 
-    @const.store(x, y, z)
+    @bind(x, y, z)
     def g():
-        x, y, z = "__const__"
+        x, y, z = "__bound__"
         return x.value, y.value, z.value
 
     def h():
@@ -39,9 +39,9 @@ def test_store():
 
 def test_missing_code():
     with pytest.raises(TypeError):
-        const.store()(object())
+        bind()(object())
 
 
 def test_missing_literal():
     with pytest.raises(ValueError):
-        const.store()(lambda: None)
+        bind()(lambda: None)

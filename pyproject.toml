@@ -1,25 +1,21 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
 
 [project]
-name = "const.store"
+name = "bindvar"
 authors = [{name = "Nicolas Tessore", email = "n.tessore@ucl.ac.uk"}]
-description = "Load const objects in Python functions"
 readme = "README.md"
-requires-python = ">=3.8"
-license = {text = "MIT"}
+license = {file = "LICENSE.txt"}
 classifiers = [
     "License :: OSI Approved :: MIT License",
 ]
-dynamic = ["version"]
+requires-python = ">=3.8"
+dynamic = ["version", "description"]
 
 [project.urls]
-Homepage = "https://github.com/ntessore/const"
-Issues = "https://github.com/ntessore/const/issues"
+Homepage = "https://github.com/ntessore/bindvar"
+Issues = "https://github.com/ntessore/bindvar/issues"
 
-[tool.setuptools]
-py-modules = ["const"]
-
-[tool.setuptools.dynamic]
-version = {attr = "const.__version__"}
+[tool.flit.sdist]
+exclude = [".*"]

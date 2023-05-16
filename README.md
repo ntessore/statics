@@ -1,24 +1,22 @@
-const.store
-===========
+bindvar
+=======
 
-**Load const objects in Python functions**
+**Bind variables to Python functions**
 
-This is a micropackage with a decorator `@const.store` that can be used to
-store objects in the `co_consts` array of Python functions.  This is a tuple of
-constant objects[^1] which are hard-copied into the function definition.  The
-objects can then be loaded into variables in a function, exactly as they were
-given, without depending on globals or closures.
+This is a micropackage with a decorator `@bind` that can be used to bind
+objects to Python functions.  The objects can then be loaded into variables in
+a function, exactly as they were given, without using globals or closures.
 
 How this works is probably easier shown than explained:
 
 ```py
->>> import const
+>>> from bindvar import bind
 >>>
 >>> x = 1
 >>>
->>> @const.store(x)
+>>> @bind(x)
 ... def f():
-...     x = "__const__"
+...     x = "__bound__"
 ...     print(f"{x=}")
 ...
 >>> del x
@@ -28,14 +26,14 @@ x=1
 
 ```
 
-Multiple objects can be stored in a tuple, and assigned to multiple variables:
+Multiple objects can be bound in a tuple, and assigned to multiple variables:
 
 ```py
 >>> x, y, z = 1, 2, 3
 >>>
->>> @const.store(x, y, z)
+>>> @bind(x, y, z)
 ... def f():
-...     x, y, z = "__const__"
+...     x, y, z = "__bound__"
 ...     print(f"{x=}, {y=}, {z=}")
 ...
 >>> del x, y, z
@@ -45,15 +43,15 @@ x=1, y=2, z=3
 
 ```
 
-Variable names in the function do not have to match the names of the stored
+Variable names in the function do not have to match the names of the bound
 objects:
 
 ```py
 >>> x, y, z = 1, 2, 3
 >>>
->>> @const.store(x, y, z)
+>>> @bind(x, y, z)
 ... def f():
-...     a, b, c = "__const__"
+...     a, b, c = "__bound__"
 ...     print(f"{a=}, {b=}, {c=}")
 ...
 >>> del x, y, z
@@ -63,12 +61,8 @@ a=1, b=2, c=3
 
 ```
 
-Loading the variables from `co_consts` relies on replacing the string literal
-`"__const__"` with the objects passed to the `@const.store` decorator.  The
-string `"__const__"` can hence not be used for anything else in the decorated
-function.[^2]
-
-
-[^1]: "Constant" here refers to the fact that the variable will always point to
-      the same object.  The object itself will still be mutable.
-[^2]: Strings containing the substring `"__const__"` are not affected.
+Technically, the binding is achieved by storing the objects in the `co_const`
+array of a Python function's code object.  Loading the variables works by
+replacing the string literal `"__bound__"` with the bound objects.  The string
+`"__bound__"` can therefore not be used for anything else in the decorated
+function (strings containing  `"__bound__"` as a substring are not affected).

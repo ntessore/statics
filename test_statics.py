@@ -1,7 +1,7 @@
 # type: ignore
 
 import pytest
-from bindvar import bind
+from statics import static
 
 
 class Value:
@@ -12,17 +12,17 @@ class Value:
 x, y, z = Value(1), Value(2), Value(3)
 
 
-def test_bind():
+def test_static():
     global x, y, z
 
-    @bind(x)
+    @static(x)
     def f():
-        x = "__bound__"
+        x = "__static__"
         return x.value
 
-    @bind(x, y, z)
+    @static(x, y, z)
     def g():
-        x, y, z = "__bound__"
+        x, y, z = "__static__"
         return x.value, y.value, z.value
 
     def h():
@@ -39,9 +39,9 @@ def test_bind():
 
 def test_missing_code():
     with pytest.raises(TypeError):
-        bind()(object())
+        static()(object())
 
 
 def test_missing_literal():
     with pytest.raises(ValueError):
-        bind()(lambda: None)
+        static()(lambda: None)

@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "bindvar"
+name = "statics"
 authors = [{name = "Nicolas Tessore", email = "n.tessore@ucl.ac.uk"}]
 readme = "README.md"
 license = {file = "LICENSE.txt"}
@@ -14,8 +14,8 @@ requires-python = ">=3.8"
 dynamic = ["version", "description"]
 
 [project.urls]
-Homepage = "https://github.com/ntessore/bindvar"
-Issues = "https://github.com/ntessore/bindvar/issues"
+Homepage = "https://github.com/ntessore/statics"
+Issues = "https://github.com/ntessore/statics/issues"
 
 [tool.flit.sdist]
 exclude = [".*"]
